@@ -2,6 +2,7 @@ use clap::Parser;
 use color_eyre::eyre::Result;
 use command::Cli;
 
+mod algorithm;
 mod command;
 mod parser;
 
