@@ -26,7 +26,9 @@ impl GraphParser for StringParser {
     type Source<'a> = &'a str;
 
     fn parse(source: Self::Source<'_>) -> Result<PrecedenceGraph> {
-        let entities = source[..source.len() - 1].split(") ");
+        let content = source.chars().filter(|c| *c != ' ').collect::<String>();
+
+        let entities = content.split_terminator(')');
 
         let n = entities.clone().count();
 
@@ -47,11 +49,12 @@ impl GraphParser for StringParser {
                         node: outcome.to_string(),
                     })?;
 
-            let income = income[1..].parse::<u128>().wrap_err_with(|| {
-                StringParserError::NodeIsNotNumber {
-                    node: income.to_string(),
-                }
-            })?;
+            let income =
+                income
+                    .parse::<u128>()
+                    .wrap_err_with(|| StringParserError::NodeIsNotNumber {
+                        node: income.to_string(),
+                    })?;
 
             nodes.insert(income);
             nodes.insert(outcome);
