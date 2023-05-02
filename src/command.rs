@@ -23,7 +23,7 @@ enum Command {
     /// Check that provided graph is a quasi-interval order
     #[group(required = true, multiple = false)]
     IsQuasiIntervalOrder {
-        #[arg(group = "graph")]
+        #[arg(group = "graph", value_name = "GRAPH")]
         graph_str: Option<String>,
 
         #[arg(short, long, group = "graph", value_name = "FILE")]
