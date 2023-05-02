@@ -1,0 +1,14 @@
+[package]
+name = "precedence_graph_tool"
+version = "0.1.0"
+edition = "2021"
+authors = ["Volodymyr Antonov <azazaka2002@gmail.com>"]
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+clap = { version = "4.2.4", features = ["derive"] }
+color-eyre = "0.6.2"
+itertools = "0.10.5"
+precedence-graph = { git = "https://github.com/azazak123/precedence-graph" }
+thiserror = "1.0.40"
