@@ -6,7 +6,7 @@ use color_eyre::{
 use is_quasi_interval_order::is_quasi_interval_order;
 use std::path::PathBuf;
 
-use crate::parser::StringParser;
+use crate::parser::{FileParser, StringParser};
 
 mod is_quasi_interval_order;
 
@@ -37,11 +37,13 @@ impl Cli {
         match &self.command {
             Command::IsQuasiIntervalOrder { file, graph_str } => {
                 if let Some(graph_str) = graph_str {
-                    is_quasi_interval_order::<StringParser>(&graph_str[..]).wrap_err_with(|| {
-                        format!("Failed to check graph {graph_str} of quasi-interval order")
-                    })?;
+                    is_quasi_interval_order::<StringParser>(&graph_str[..]).wrap_err_with(
+                        || format!("Failed to check graph {graph_str:?} of quasi-interval order"),
+                    )?;
                 } else if let Some(path) = file {
-                    todo!()
+                    is_quasi_interval_order::<FileParser>(path).wrap_err_with(|| {
+                        format!("Failed to check graph from file {path:?} of quasi-interval order")
+                    })?;
                 } else {
                     Err(eyre!("All args are nones in IsQuasiIntervalOrder"))?;
                 }
