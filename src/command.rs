@@ -6,6 +6,7 @@ use color_eyre::{
 use std::path::PathBuf;
 
 use get_priority_list::get_priority_list;
+use get_schedule::get_schedule;
 use is_quasi_interval_order::is_quasi_interval_order;
 
 use crate::{
@@ -14,6 +15,7 @@ use crate::{
 };
 
 mod get_priority_list;
+mod get_schedule;
 mod is_quasi_interval_order;
 
 /// Tool for working with precedence graphs
@@ -44,6 +46,26 @@ enum Command {
         /// What algorithm to use
         #[arg(value_enum)]
         algorithm: Algorithm,
+
+        /// String representation of graph
+        #[arg(group = "graph", value_name = "GRAPH")]
+        graph_str: Option<String>,
+
+        /// File with string representation of graph
+        #[arg(short, long, group = "graph", value_name = "FILE")]
+        file: Option<PathBuf>,
+    },
+
+    /// Get schedule for provided graph using specified list scheduling algorithm
+    #[group(required = true)]
+    GetSchedule {
+        /// What algorithm to use
+        #[arg(value_enum)]
+        algorithm: Algorithm,
+
+        /// Profile (number of processors in each time slot)
+        #[arg(short, long, value_name = "PROFILE")]
+        profile: Vec<usize>,
 
         /// String representation of graph
         #[arg(group = "graph", value_name = "GRAPH")]
@@ -87,6 +109,24 @@ impl Cli {
                     })?;
                 } else {
                     Err(eyre!("All graph sources are nones in GetPriorityList"))?;
+                }
+            }
+            Command::GetSchedule {
+                algorithm,
+                graph_str,
+                file,
+                profile,
+            } => {
+                if let Some(graph_str) = graph_str {
+                    get_schedule::<StringParser>(&graph_str[..], algorithm, profile).wrap_err_with(
+                        || format!("Failed to generate schedule using {algorithm} for graph {graph_str:?}"),
+                    )?;
+                } else if let Some(path) = file {
+                    get_schedule::<FileParser>(path, algorithm, profile).wrap_err_with(|| {
+                         format!("Failed to generate schedule using {algorithm} for graph from file {path:?}")
+                    })?;
+                } else {
+                    Err(eyre!("All graph sources are nones in GetSchedule"))?;
                 }
             }
         }
