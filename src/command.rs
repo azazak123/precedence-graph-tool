@@ -29,9 +29,11 @@ enum Command {
     /// Check that provided graph is a quasi-interval order
     #[group(required = true, multiple = false)]
     IsQuasiIntervalOrder {
+        /// String representation of graph
         #[arg(group = "graph", value_name = "GRAPH")]
         graph_str: Option<String>,
 
+        /// File with string representation of graph
         #[arg(short, long, group = "graph", value_name = "FILE")]
         file: Option<PathBuf>,
     },
@@ -43,9 +45,11 @@ enum Command {
         #[arg(value_enum)]
         algorithm: Algorithm,
 
+        /// String representation of graph
         #[arg(group = "graph", value_name = "GRAPH")]
         graph_str: Option<String>,
 
+        /// File with string representation of graph
         #[arg(short, long, group = "graph", value_name = "FILE")]
         file: Option<PathBuf>,
     },
