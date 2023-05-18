@@ -11,4 +11,5 @@ clap = { version = "4.2.4", features = ["derive"] }
 color-eyre = "0.6.2"
 itertools = "0.10.5"
 precedence-graph = { git = "https://github.com/azazak123/precedence-graph" }
+tabled = "0.12.0"
 thiserror = "1.0.40"
