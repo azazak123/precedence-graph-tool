@@ -18,7 +18,7 @@ where
 
     let priority_list = match algorithm {
         Algorithm::Msf => graph.msf_list(),
-        Algorithm::Gc => graph.gc_list(),
+        Algorithm::Cg => graph.gc_list(),
     };
 
     println!(

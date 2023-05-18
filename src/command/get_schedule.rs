@@ -24,7 +24,7 @@ where
 
     let schedule = match algorithm {
         Algorithm::Msf => graph.msf_schedule(profile),
-        Algorithm::Gc => graph.gc_schedule(profile),
+        Algorithm::Cg => graph.gc_schedule(profile),
     };
 
     let table = create_schedule_table(schedule);
